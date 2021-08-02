@@ -4,19 +4,14 @@ import rospy
 from iiwa_msgs.msg import CartesianPose
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
-def callback(data):
-    #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data)
-    #print(data.position)
-    position = [data.pose.position.x,data.pose.position.y,data.pose.position.z]
-    print("POSITION ", position)
-def listener():
+rospy.init_node('get_CartesianPose', anonymous=False)
 
-    rospy.init_node('listener', anonymous=True)
+#read a single message
+msg = rospy.wait_for_message("/iiwa/state/CartesianPose", CartesianPose)
+position = [msg.poseStamped.pose.position.x, msg.poseStamped.pose.position.y, msg.poseStamped.pose.position.z]
+orn_quaternion = [msg.poseStamped.pose.orientation.x, msg.poseStamped.pose.orientation.y, msg.poseStamped.pose.orientation.z, msg.poseStamped.pose.orientation.w]
+orn_euler = euler_from_quaternion(orn_quaternion)
 
-    rospy.Subscriber("/iiwa/state/CartesianPose", CartesianPose, callback)
-
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
-
-if __name__ == '__main__':
-    listener()
+print("POSITION : ", position)
+print("ORIENTATION QUATERNION : ", orn_quaternion)
+print("ORIENTATION EULER : ", orn_euler)
