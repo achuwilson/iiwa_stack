@@ -27,7 +27,7 @@ init_position = [msg.poseStamped.pose.position.x, msg.poseStamped.pose.position.
 init_orn = [msg.poseStamped.pose.orientation.x, msg.poseStamped.pose.orientation.y, msg.poseStamped.pose.orientation.z, msg.poseStamped.pose.orientation.w]
 
 #define a publisher
-pub0 = rospy.Publisher("/iiwa/command/CartesianPose",
+pub = rospy.Publisher("/iiwa/command/CartesianPose",
                       PoseStamped, queue_size=10)
 
 time.sleep(1)
@@ -41,7 +41,7 @@ pose0.header.frame_id = "iiwa_link_0"
 pose0.pose.position = Point(x=init_position[0]+0.1, y=init_position[1], z=init_position[2])
 pose0.pose.orientation = Quaternion(*init_orn)
 #publish the message
-pub0.publish(pose0)
+pub.publish(pose0)
 
 # a small delay required to avoid erratic behavior
 # ( so as we start checking hasReached only after robot starts moving)
@@ -61,7 +61,7 @@ pose1.header.frame_id = "iiwa_link_0"
 pose1.pose.position = Point(x=init_position[0], y=init_position[1], z=init_position[2])
 pose1.pose.orientation = Quaternion(*init_orn)
 #publish the message
-pub0.publish(pose1)
+pub.publish(pose1)
 
 
 # a small delay required to avoid erratic behavior
