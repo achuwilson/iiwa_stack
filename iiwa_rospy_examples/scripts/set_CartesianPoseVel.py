@@ -15,6 +15,8 @@ rospy.init_node('set_CartesianPose', anonymous=False)
 #   - if we give 0, it runs with default velocity
 #   - values should be in range 0 - 1
 #   - by default it seems to run at velocity of 0.5
+# NOTE that the service names for normal move velocity control 
+#    and linear move velocity control  are different
 rospy.wait_for_service("/iiwa/configuration/setSmartServoLimits")
 try:
     set_vel = rospy.ServiceProxy("/iiwa/configuration/setSmartServoLimits", SetSmartServoJointSpeedLimits)
